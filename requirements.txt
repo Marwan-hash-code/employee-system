@@ -2,4 +2,6 @@ streamlit
 mysql-connector-python
 pandas
 plotly
-fpdf
+matplotlib
+reportlab
+
