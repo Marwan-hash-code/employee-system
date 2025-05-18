@@ -34,8 +34,8 @@ from stock_history2 import stock_history2
 from add_invoice2 import add_invoice2
 from view_invoices2 import view_invoices2
 
-# ✅ import صفحة منح الصلاحيات
-from grant_access2 import grant_access2
+# ✅ بدل import اسم الفنكشن، اعمل import للملف بس
+import grant_access2
 
 def load_license_config():
     try:
@@ -246,7 +246,7 @@ def main():
 
         # ✅ تشغيل صفحة Grant Access
         elif main_option == "Grant DB Access":
-            grant_access2()
+            import grant_access2  # ✅ ده كل اللي محتاجينه
 
         if st.sidebar.button("🚪 Logout"):
             st.session_state.logged_in = False
