@@ -5,3 +5,4 @@ plotly
 matplotlib
 reportlab
 fpdf
+python-dotenv
