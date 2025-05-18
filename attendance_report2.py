@@ -1,20 +1,15 @@
 import streamlit as st
 import pandas as pd
-import mysql.connector
 import plotly.express as px
 from fpdf import FPDF
 import os
+from db_connection import get_connection  # ✅ الاتصال الموحد
 
 def attendance_report2():
     st.title("📊 Attendance Report")
 
     try:
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="MARWan99@",
-            database="company_system"
-        )
+        connection = get_connection()
         cursor = connection.cursor()
 
         query = """
@@ -29,9 +24,14 @@ def attendance_report2():
         df = pd.DataFrame(results, columns=["First Name", "Last Name", "Check-in", "Check-out"])
         df["Check-in"] = pd.to_datetime(df["Check-in"])
         df["Check-out"] = pd.to_datetime(df["Check-out"])
+
+        # ✅ حذف الصفوف اللي مفيهاش Check-out
+        df = df[df["Check-out"].notna()]
+
+        # ✅ حساب مدة العمل
         df["Worked Duration"] = (
             df["Check-out"] - df["Check-in"]
-        ).apply(lambda delta: f"{delta.seconds // 3600:02d}:{(delta.seconds % 3600) // 60:02d}")
+        ).apply(lambda delta: f"{int(delta.seconds // 3600):02d}:{int((delta.seconds % 3600) // 60):02d}")
 
         df["Full Name"] = df["First Name"] + " " + df["Last Name"]
         employee_list = df["Full Name"].unique().tolist()
@@ -46,18 +46,7 @@ def attendance_report2():
 
         st.dataframe(filtered_df.style.applymap(highlight_short_hours, subset=["Worked Duration"]))
 
-        # ✅ رسم بياني بسيط (بالساعات فقط)
-        filtered_df["Hours"] = filtered_df["Worked Duration"].apply(lambda x: int(x.split(":")[0]))
-        fig = px.bar(
-            filtered_df,
-            x="Check-in",
-            y="Hours",
-            title=f"Monthly Work Hours for {selected_employee}",
-            labels={"Check-in": "Date", "Hours": "Hours"},
-        )
-        st.plotly_chart(fig)
-
-        # ✅ توليد تقرير PDF
+        # ✅ PDF report
         if st.button("📄 Generate PDF Report"):
             pdf = FPDF()
             pdf.add_page()
@@ -81,6 +70,22 @@ def attendance_report2():
                 )
 
             os.remove(output_path)
+
+        # ✅ Excel Export لكل الموظفين
+        if st.button("⬇️ Download Full Excel Report"):
+            excel_df = df[["Full Name", "Check-in", "Check-out", "Worked Duration"]]
+            excel_path = "attendance_full.xlsx"
+            excel_df.to_excel(excel_path, index=False)
+
+            with open(excel_path, "rb") as f:
+                st.download_button(
+                    label="📥 Download Excel File",
+                    data=f,
+                    file_name="attendance_report.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+
+            os.remove(excel_path)
 
     except Exception as e:
         st.error(f"❌ Error loading attendance report: {e}")

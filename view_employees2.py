@@ -40,3 +40,4 @@ def view_employees2():
 
     cursor.close()
     connection.close()
+ 

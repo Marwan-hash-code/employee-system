@@ -1,16 +1,11 @@
 import streamlit as st
-import mysql.connector
 from datetime import datetime
+from db_connection import get_connection  # ✅ الاتصال الموحد
 
 def checkout2():
     st.title("🔴 Check-Out")
 
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="MARWan99@",
-        database="company_system"
-    )
+    connection = get_connection()
     cursor = connection.cursor()
 
     # جلب كل الموظفين

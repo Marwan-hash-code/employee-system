@@ -1,0 +1,16 @@
+{
+    "annual_leave": 21,
+    "working_days": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+    ],
+    "enable_absence_deduction": false,
+    "absence_deduction": 0,
+    "enable_late_deduction": false,
+    "late_deduction": 0,
+    "enable_bonus": false,
+    "bonus_value": 0
+}

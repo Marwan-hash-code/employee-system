@@ -1,0 +1,11 @@
+{
+  "employee_system": true,
+  "inventory_system": true,
+  "payroll_system": true,
+  "expiry_date": "2030-12-31",
+  "signed_by": "Marwan - Zynox Systems",
+  "client_signature": "",
+  "system": "Zynox Employee & Inventory Management",
+  "client_name": "master",
+  "signature": "QmEhVoMV3pvQgIwt+A0UOtUufblwtncJbKlrnnOBnia9ORyil/RXjUu2CefT5Do2WDtR2J5RPDiHPzzThqIDxu8jMivv2d5OxdVRM3rs1tCWuOPhM4muQrKJeKJwdb4drt1qL94qVqJezpX+qfku8u3WXehaCcue/onMpCbwjvZVU9UKjKczQeGmMT2Kjy4wk5WvQaPOzgzLlomL0Zrkn+mTNIDSDxB8B3W4DudeHiSRBPUfa2uTA7nazOEh4AUzmsXWjrThybI0KFNJ3Yvh5VRxFHUfXIbCn957lqllIKYWKBHrQa8Wm97ob1q8/UWDdfVIUezT+tOomCefjn+LaQ=="
+}

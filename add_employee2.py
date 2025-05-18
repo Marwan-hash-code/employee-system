@@ -1,5 +1,6 @@
 import streamlit as st
-import mysql.connector
+import pandas as pd
+from db_connection import get_connection  # ✅ استدعاء الاتصال من الملف الموحد
 
 def add_employee2():
     st.title("➕ Add New Employee")
@@ -16,25 +17,28 @@ def add_employee2():
     mobile_number = st.text_input("Mobile Number")  # ✅ أضفنا رقم الهاتف
 
     if st.button("Add Employee"):
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="MARWan99@",
-            database="company_system"
-        )
-        cursor = connection.cursor()
+        try:
+            connection = get_connection()
+            cursor = connection.cursor()
 
-        cursor.execute("""
-            INSERT INTO employees (
+            cursor.execute("""
+                INSERT INTO employees (
+                    first_name, last_name, national_id, job_title,
+                    salary, passport_number, address, device_serial, mobile_number
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
                 first_name, last_name, national_id, job_title,
                 salary, passport_number, address, device_serial, mobile_number
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (
-            first_name, last_name, national_id, job_title,
-            salary, passport_number, address, device_serial, mobile_number
-        ))
+            ))
 
-        connection.commit()
-        cursor.close()
-        connection.close()
-        st.success("✅ Employee added successfully!")
+            connection.commit()
+            st.success("✅ Employee added successfully!")
+
+        except Exception as e:
+            st.error(f"❌ Error: {e}")
+
+        finally:
+            cursor.close()
+            connection.close()
+
+    

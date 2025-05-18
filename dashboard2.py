@@ -1,18 +1,13 @@
 import streamlit as st
-import mysql.connector
 import matplotlib.pyplot as plt
+from db_connection import get_connection  # ✅ الاتصال الموحد
 
 def dashboard2():
     st.title("📊 Dashboard")
 
     try:
         # الاتصال بقاعدة البيانات
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="MARWan99@",  # عدلها لو غيرت الباسورد
-            database="company_system"
-        )
+        conn = get_connection()
         cursor = conn.cursor()
 
         # عدد الموظفين

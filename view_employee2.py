@@ -1,28 +1,31 @@
 import streamlit as st
 import mysql.connector
 import pandas as pd
+from db_connection import get_connection
 
 def view_employees2():
-    st.title("📋 All Employees")
+    st.title("👨‍💼 View Employees")
 
     try:
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="MARWan99@",
-            database="company_system"
-        )
-        cursor = conn.cursor()
+        connection = get_connection()
+        cursor = connection.cursor()
 
-        cursor.execute("SELECT * FROM employees")
-        rows = cursor.fetchall()
-        columns = [i[0] for i in cursor.description]
+        cursor.execute("""
+            SELECT
+                first_name, last_name, national_id, job_title,
+                salary, passport_number, residence, address, device_serial, appointment_time
+            FROM employees
+        """)
+        data = cursor.fetchall()
 
-        df = pd.DataFrame(rows, columns=columns)
-        st.dataframe(df, use_container_width=True)
-
-        cursor.close()
-        conn.close()
+        if data:
+            df = pd.DataFrame(data, columns=[
+                "First Name", "Last Name", "National ID", "Job Title",
+                "Salary", "Passport", "Residence", "Address", "Device Serial", "Appointment Time"
+            ])
+            st.dataframe(df, use_container_width=True)
+        else:
+            st.info("No employees found.")
 
     except Exception as e:
-        st.error(f"❌ Error loading data: {e}")
+        st.error(f"❌ Error loading employees: {e}")
