@@ -6,3 +6,4 @@ matplotlib
 reportlab
 fpdf
 python-dotenv
+cryptography
