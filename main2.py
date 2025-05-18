@@ -34,6 +34,9 @@ from stock_history2 import stock_history2
 from add_invoice2 import add_invoice2
 from view_invoices2 import view_invoices2
 
+# ✅ import صفحة منح الصلاحيات
+from grant_access2 import grant_access2
+
 def load_license_config():
     try:
         with open("license.json", "r") as f:
@@ -143,6 +146,11 @@ def main():
             system_options.append("Inventory System")
         if license_config.get("payroll_system") and role in ["admin", "developer"]:
             system_options.append("HR Payroll")
+
+        # ✅ إضافة خيار الوصول المؤقت
+        if role == "developer":
+            system_options.append("Grant DB Access")
+
         system_options.append("Logout")
 
         main_option = st.sidebar.radio("Select System", system_options)
@@ -235,6 +243,10 @@ def main():
                 payroll_dashboard2()
             elif sub_option == "Upload Employees":
                 upload_employees2()
+
+        # ✅ تشغيل صفحة Grant Access
+        elif main_option == "Grant DB Access":
+            grant_access2()
 
         if st.sidebar.button("🚪 Logout"):
             st.session_state.logged_in = False
