@@ -1,8 +1,11 @@
+import streamlit as st
+st.set_page_config(page_title="Grant MySQL Remote Access", layout="wide")
+
 import mysql.connector
 import os
 from dotenv import load_dotenv
 
-# تحميل المتغيرات من .env أو من Environment Variables في Render
+# تحميل متغيرات البيئة
 load_dotenv()
 
 def grant_access():
@@ -17,25 +20,24 @@ def grant_access():
 
         cursor = connection.cursor()
 
-        # أمر SQL للسماح بالاتصال من أي IP
+        # أمر السماح لأي IP بالاتصال
         cursor.execute(f"""
             GRANT ALL PRIVILEGES ON *.* TO '{os.getenv("DB_USER")}'@'%' IDENTIFIED BY '{os.getenv("DB_PASSWORD")}';
         """)
         cursor.execute("FLUSH PRIVILEGES;")
 
         connection.commit()
-        st.success("✅ تم السماح بالاتصال من أي IP بنجاح.")
-
+        st.success("تم تفعيل الاتصال من أي IP بنجاح.")
+    
     except Exception as e:
-        st.error(f"❌ حصل خطأ: {e}")
+        st.error(f"حدث خطأ: {e}")
+    
     finally:
         if connection.is_connected():
             cursor.close()
             connection.close()
 
-# Streamlit UI
-import streamlit as st
-
+# واجهة Streamlit
 st.title("Grant MySQL Remote Access")
 
 if st.button("Grant Access"):
