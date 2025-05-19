@@ -1,6 +1,4 @@
 import streamlit as st
-st.set_page_config(page_title="Grant MySQL Remote Access", layout="wide")
-
 import mysql.connector
 import os
 from dotenv import load_dotenv
