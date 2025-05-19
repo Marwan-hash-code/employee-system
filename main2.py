@@ -1,6 +1,6 @@
 import streamlit as st
 st.set_page_config(page_title="Zynox System", layout="wide")
-import streamlit as st
+
 from datetime import datetime, date, time
 import mysql.connector
 import json
@@ -36,8 +36,7 @@ from stock_history2 import stock_history2
 from add_invoice2 import add_invoice2
 from view_invoices2 import view_invoices2
 
-# ✅ بدل import اسم الفنكشن، اعمل import للملف بس
-import grant_access2
+# ✅ شيلنا import grant_access2
 
 def load_license_config():
     try:
@@ -149,10 +148,7 @@ def main():
         if license_config.get("payroll_system") and role in ["admin", "developer"]:
             system_options.append("HR Payroll")
 
-        # ✅ إضافة خيار الوصول المؤقت
-        if role == "developer":
-            system_options.append("Grant DB Access")
-
+        # ✅ شيلنا Grant DB Access من القايمة
         system_options.append("Logout")
 
         main_option = st.sidebar.radio("Select System", system_options)
@@ -245,10 +241,6 @@ def main():
                 payroll_dashboard2()
             elif sub_option == "Upload Employees":
                 upload_employees2()
-
-        # ✅ تشغيل صفحة Grant Access
-        elif main_option == "Grant DB Access":
-            import grant_access2  # ✅ ده كل اللي محتاجينه
 
         if st.sidebar.button("🚪 Logout"):
             st.session_state.logged_in = False
