@@ -1,4 +1,6 @@
 import streamlit as st
+st.set_page_config(page_title="Zynox System", layout="wide")
+import streamlit as st
 from datetime import datetime, date, time
 import mysql.connector
 import json
