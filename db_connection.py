@@ -1,9 +1,5 @@
 import mysql.connector
 import os
-from dotenv import load_dotenv
-
-# تحميل متغيرات البيئة
-load_dotenv()
 
 def get_connection():
     connection = mysql.connector.connect(
