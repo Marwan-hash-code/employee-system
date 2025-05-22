@@ -36,8 +36,6 @@ from stock_history2 import stock_history2
 from add_invoice2 import add_invoice2
 from view_invoices2 import view_invoices2
 
-# ✅ شيلنا import grant_access2
-
 def load_license_config():
     try:
         with open("license.json", "r") as f:
@@ -78,8 +76,6 @@ def is_license_expired(expiry_str):
         return True
 
 def main():
-    st.set_page_config(page_title="Zynox System", layout="wide")
-
     license_config = load_license_config()
 
     if is_license_expired(license_config.get("expiry_date", "")):
@@ -148,7 +144,6 @@ def main():
         if license_config.get("payroll_system") and role in ["admin", "developer"]:
             system_options.append("HR Payroll")
 
-        # ✅ شيلنا Grant DB Access من القايمة
         system_options.append("Logout")
 
         main_option = st.sidebar.radio("Select System", system_options)
